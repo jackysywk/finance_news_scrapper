@@ -9,14 +9,14 @@ from datetime import date
 from utils import *
 
 logging.basicConfig(
-    filename="log.txt",
+    filename="log_fundemental.txt",
     level=logging.INFO,  # Set the logging level to INFO
     format="%(asctime)s - %(levelname)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S"
 )
 
 
-class Scrapper():
+class AAStock_scrapper():
     def __init__(self, stock_symbol):
         
         self.base_url = 'http://www.aastocks.com/tc/stocks/quote/detail-quote.aspx?symbol='
@@ -145,11 +145,11 @@ if __name__ == '__main__':
     for stock in stocklist:
         stock = "{:0>5}".format(stock)
         logging.info('Start scrapping '+stock)
-        scrapper = Scrapper(stock)
+        scrapper = AAStock_scrapper(stock)
         scrapper.fetch_data()
         today_dict["{:0>5}".format(stock)] = scrapper.parse_data()
         time.sleep(5)
     
     
     df = pd.DataFrame.from_dict(today_dict).T
-    df.to_csv('data/'+formatted_date+'.csv', encoding='UTF-8')
+    df.to_csv('data/fundemental/'+formatted_date+'.csv', encoding='UTF-8')
